@@ -6,6 +6,13 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
+const User = require('./models/User');
+
+const DEFAULT_USER = {
+  name: 'TaskFlow Tester',
+  email: 'test@taskflow.local',
+  password: 'Password123'
+};
 
 const app = express();
 
@@ -61,6 +68,19 @@ async function startServer() {
   }
 
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+  // Seed default user in development or in-memory mode
+  try {
+    const existingUser = await User.findOne({ email: DEFAULT_USER.email });
+    if (!existingUser) {
+      await User.create(DEFAULT_USER);
+      console.log('✅ Seeded default user:', DEFAULT_USER.email);
+    } else {
+      console.log('✅ Default user already exists:', existingUser.email);
+    }
+  } catch (seedErr) {
+    console.warn('⚠️  Failed to seed default user:', seedErr.message);
+  }
 }
 
 startServer().catch(err => {
