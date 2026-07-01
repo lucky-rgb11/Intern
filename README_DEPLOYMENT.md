@@ -24,7 +24,7 @@
 5. Set environment variables:
    - `NODE_ENV=production`
    - `MONGO_URI=<your-production-mongodb-uri>`
-   - `CLIENT_URL=https://<netlify-site-url>`
+   - `CLIENT_URL=https://intern-11392.netlify.app`
    - `JWT_SECRET=<your-secret>`
 
 ## Notes
