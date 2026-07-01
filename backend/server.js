@@ -51,13 +51,19 @@ async function startServer() {
     });
     console.log('✅ Connected to MongoDB');
   } catch (err) {
-    if (isProduction) {
+    const allowInMemory = process.env.ALLOW_IN_MEMORY === 'true';
+    if (isProduction && !allowInMemory) {
       console.error('❌ Failed to connect to MongoDB in production:', err.message);
       process.exit(1);
     }
 
     console.warn('⚠️  MongoDB connection warning:', err.message);
-    console.warn('⚠️  Falling back to in-memory MongoDB for development. Data will not persist after restart.');
+    if (isProduction && allowInMemory) {
+      console.warn('⚠️  ALLOW_IN_MEMORY=true — falling back to in-memory MongoDB in production (data will not persist).');
+    } else {
+      console.warn('⚠️  Falling back to in-memory MongoDB for development. Data will not persist after restart.');
+    }
+
     const memoryServer = await MongoMemoryServer.create();
     const memoryUri = memoryServer.getUri();
     await mongoose.connect(memoryUri, {
