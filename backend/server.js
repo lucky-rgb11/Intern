@@ -33,6 +33,7 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 const DEFAULT_MONGO_URI = 'mongodb://localhost:27017/taskflow';
+const isProduction = process.env.NODE_ENV === 'production';
 
 async function startServer() {
   const uri = process.env.MONGO_URI || DEFAULT_MONGO_URI;
@@ -43,6 +44,11 @@ async function startServer() {
     });
     console.log('✅ Connected to MongoDB');
   } catch (err) {
+    if (isProduction) {
+      console.error('❌ Failed to connect to MongoDB in production:', err.message);
+      process.exit(1);
+    }
+
     console.warn('⚠️  MongoDB connection warning:', err.message);
     console.warn('⚠️  Falling back to in-memory MongoDB for development. Data will not persist after restart.');
     const memoryServer = await MongoMemoryServer.create();
