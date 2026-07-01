@@ -21,10 +21,10 @@
 2. Set root directory: `backend`.
 3. Set build command: `npm install`.
 4. Set start command: `npm start`.
-4. Set environment variables:
+5. Set environment variables:
    - `NODE_ENV=production`
    - `MONGO_URI=<your-production-mongodb-uri>`
-   - `CLIENT_URL=https://intern-11392.netrender.com` 
+   - `CLIENT_URL=https://intern-teh7.onrender.com`
    - `JWT_SECRET=<your-secret>`
 
 ## Notes
