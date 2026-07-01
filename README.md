@@ -130,6 +130,28 @@ CLIENT_URL=http://localhost:3000
 REACT_APP_API_URL=http://localhost:5000/api
 ```
 
+## Deployment
+
+### Netlify frontend
+- Uses `netlify.toml` in the repo root.
+- Build command: `cd frontend && npm install && npm run build`
+- Publish directory: `frontend/build`
+- Set environment variable after deploying backend:
+  - `REACT_APP_API_URL=https://<your-backend-url>/api`
+
+### Render backend
+- Uses `render.yaml` in the repo root.
+- Root directory: `backend`
+- Build command: `npm install`
+- Start command: `npm start`
+- Required environment variables in Render:
+  - `NODE_ENV=production`
+  - `MONGO_URI=<your-mongodb-uri>`
+  - `JWT_SECRET=<your-jwt-secret>`
+  - `CLIENT_URL=https://<your-netlify-site>.netlify.app`
+
+For more details, see `README_DEPLOYMENT.md`.
+
 ## Features Implemented
 
 ✅ User authentication with JWT  
